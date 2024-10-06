@@ -18,9 +18,21 @@ fi
 INPUT_FILE=$1
 DESTINATION_FOLDER=$2
 
-# Check if the input file exists
+# Get the directory where the script is located
+SCRIPT_DIR=$(dirname "$(realpath "$0")")
+
+# Resolve INPUT_FILE and DESTINATION_FOLDER relative to the script's directory, if necessary
+if [[ ! "$INPUT_FILE" = /* ]]; then
+  INPUT_FILE="$SCRIPT_DIR/$INPUT_FILE"
+fi
+
+if [[ ! "$DESTINATION_FOLDER" = /* ]]; then
+  DESTINATION_FOLDER="$SCRIPT_DIR/$DESTINATION_FOLDER"
+fi
+
+# Check if the input file exists and is a regular file
 if [[ ! -f "$INPUT_FILE" ]]; then
-  echo "Error: INPUT_FILE '$INPUT_FILE' does not exist."
+  echo "Error: INPUT_FILE '$INPUT_FILE' does not exist or is not a regular file."
   exit 1
 fi
 
